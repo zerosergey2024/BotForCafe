@@ -1,9 +1,15 @@
 from db_library import MenuItems, Dishes, Cart
 
 def dishes_menu_start(callback, user_id):
-    if callback == "menu":
-        return [{"name, text, callback, parent_menu, order_by, image_url"}]
-    return []
+    dish_messages = []
+    if MenuItems.check_is_menu_callback(callback):
+        dish_messages = view_category_dishes_menu(callback, user_id)
+    elif callback.startswith("menu_order_"):
+        dish_messages = add_dish_from_menu_to_cart(callback, user_id)
+    elif callback.startswith("menu_remove_"):
+        dish_messages = remove_dish_from_menu_from_cart(callback, user_id)
+
+    return dish_messages
 
 
 def view_category_dishes_menu(callback, user_id):
